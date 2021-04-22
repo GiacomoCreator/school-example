@@ -8,10 +8,10 @@ services:
 # skip installation step
 install: true
 
- cache:
-    directories:
-       - $HOME/.m2
+cache:
+   directories:
+      - $HOME/.m2
 
- script:
-    - cd schoolexample
-    - mvn clean verify
+script:
+   - cd schoolexample
+   - mvn clean verify
