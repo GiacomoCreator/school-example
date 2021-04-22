@@ -9,8 +9,8 @@ services:
 install: true
 
 cache:
-directories:
-   - $HOME/.m2
+   directories:
+      - $HOME/.m2
 
 script:
    - cd schoolexample
