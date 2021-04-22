@@ -9,8 +9,7 @@ services:
 install: true
 
 script:
-   - cd schoolexample
-   - mvn clean verify
+   - mvn -f com.examples.school/pom.xml clean verify
 
 cache:
    directories:
