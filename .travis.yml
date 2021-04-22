@@ -1,0 +1,17 @@
+language: java
+
+jdk: openjdk8
+
+services:
+  - docker
+
+# skip installation step
+install: true
+
+script:
+  - cd schoolexample
+  - mvn clean verify
+
+cache:
+  directories:
+     - $HOME/.m2
