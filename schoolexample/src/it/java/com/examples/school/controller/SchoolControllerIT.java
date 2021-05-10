@@ -15,6 +15,9 @@ import com.examples.school.view.StudentView;
 import com.mongodb.MongoClient;
 
 public class SchoolControllerIT {
+	
+private static final String SCHOOL_DB_NAME = "school";
+private static final String STUDENT_COLLECTION_NAME = "student";
 
  @Mock
  private StudentView studentView;
@@ -26,7 +29,7 @@ public class SchoolControllerIT {
  @Before
  public void setUp() {
  MockitoAnnotations.initMocks(this);
- studentRepository = new StudentMongoRepository(new MongoClient("localhost"));
+ studentRepository = new StudentMongoRepository(new MongoClient("localhost"), SCHOOL_DB_NAME, STUDENT_COLLECTION_NAME);
  // explicit empty the database through the repository
  for (Student student : studentRepository.findAll()) {
  studentRepository.delete(student.getId());

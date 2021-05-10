@@ -19,10 +19,6 @@ import com.mongodb.ServerAddress;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 
-import static com.examples.school.repository.mongo.StudentMongoRepository.SCHOOL_DB_NAME;
-import static com.examples.school.repository.mongo.StudentMongoRepository.STUDENT_COLLECTION_NAME;
-
-
 public class StudentMongoRepositoryTestcontainersIT {
 	
 	 @SuppressWarnings("rawtypes")
@@ -34,6 +30,8 @@ public class StudentMongoRepositoryTestcontainersIT {
 	 private MongoClient client;
 	 private StudentMongoRepository studentRepository;
 	 private MongoCollection<Document> studentCollection;
+	 private static final String SCHOOL_DB_NAME = "school";
+	 private static final String STUDENT_COLLECTION_NAME = "student";
 	
 	 @Before
 	 public void setup() {
@@ -41,7 +39,7 @@ public class StudentMongoRepositoryTestcontainersIT {
 	 new ServerAddress(
 	 mongo.getContainerIpAddress(),
 	 mongo.getMappedPort(27017)));
-	 studentRepository = new StudentMongoRepository(client);
+	 studentRepository = new StudentMongoRepository(client, SCHOOL_DB_NAME, STUDENT_COLLECTION_NAME);
 	 MongoDatabase database = client.getDatabase(SCHOOL_DB_NAME);
 	 // make sure we always start with a clean database
 	 database.drop();

@@ -31,6 +31,8 @@ public class ModelViewControllerIT extends AssertJSwingJUnitTestCase {
 	private FrameFixture window;
 	private SchoolController schoolController;
 	private StudentMongoRepository studentRepository;
+	private static final String SCHOOL_DB_NAME = "school";
+	private static final String STUDENT_COLLECTION_NAME = "student";
 
 	@Override
 	protected void onSetUp() {
@@ -38,7 +40,7 @@ public class ModelViewControllerIT extends AssertJSwingJUnitTestCase {
 			new ServerAddress(
 				mongo.getContainerIpAddress(),
 				mongo.getFirstMappedPort()));
-		studentRepository = new StudentMongoRepository(mongoClient);
+		studentRepository = new StudentMongoRepository(new MongoClient("localhost"), SCHOOL_DB_NAME, STUDENT_COLLECTION_NAME);
 		// explicit empty the database through the repository
 		for (Student student : studentRepository.findAll()) {
 			studentRepository.delete(student.getId());
