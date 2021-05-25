@@ -6,8 +6,9 @@
   
   <properties>
    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-   <maven.compiler.source>1.8</maven.compiler.source>
-   <maven.compiler.target>1.8</maven.compiler.target>
+   <maven.compiler.source>11</maven.compiler.source>
+   <maven.compiler.target>11</maven.compiler.target>
+   <cucumber.version>4.2.2</cucumber.version>
   </properties>
 
  <dependencies>
@@ -33,7 +34,6 @@
  <version>3.17.1</version>
  <scope>test</scope>
  </dependency>
-
  <dependency>
  <groupId>org.mockito</groupId>
  <artifactId>mockito-core</artifactId>
@@ -64,13 +64,26 @@
  <scope>test</scope>
  </dependency>
  <dependency>
-  <groupId>info.picocli</groupId>
+ <groupId>info.picocli</groupId>
   <artifactId>picocli</artifactId>
   <version>4.6.1</version>
+ </dependency>
+ <dependency>
+ <groupId>io.cucumber</groupId>
+ <artifactId>cucumber-java</artifactId>
+ <version>${cucumber.version}</version>
+ <scope>test</scope>
+ </dependency>
+ <dependency>
+ <groupId>io.cucumber</groupId>
+ <artifactId>cucumber-junit</artifactId>
+ <version>${cucumber.version}</version>
+ <scope>test</scope>
  </dependency>
  </dependencies>
  
  <build>
+ <pluginManagement>
  <plugins> 
  <plugin>
  <groupId>org.codehaus.mojo</groupId>
@@ -87,12 +100,27 @@
  <sources>
  <source>src/it/java</source>
  <source>src/e2e/java</source>
+ <source>src/bdd/java</source>
  </sources>
+ </configuration>
+ </execution>
+ <execution>
+ <id>add-test-resource</id>
+ <phase>generate-test-resources</phase>
+ <goals>
+ <goal>add-test-resource</goal>
+ </goals>
+ <configuration>
+ <resources>
+ <resource>
+ <directory>src/bdd/resources</directory>
+ </resource>
+ </resources>
  </configuration>
  </execution>
  </executions>
  </plugin>
-  <plugin>
+ <plugin>
  <groupId>org.apache.maven.plugins</groupId>
  <artifactId>maven-failsafe-plugin</artifactId>
  <version>2.22.1</version>
@@ -118,6 +146,21 @@
  </includes>
  </configuration>
  </execution>
+ <execution>
+ <id>bdd-tests</id>
+ <goals>
+ <goal>integration-test</goal>
+ <goal>verify</goal>
+ </goals>
+ <configuration>
+ <excludes>
+ <exclude>**/*IT.java</exclude>
+ </excludes>
+ <includes>
+ <include>**/*BDD.java</include>
+ </includes>
+ </configuration>
+ </execution> 
  </executions>
  </plugin>
   <plugin>
@@ -153,7 +196,13 @@
  </execution>
  </executions>
  </plugin>
+ <plugin>
+ <groupId>org.sonarsource.scanner.maven</groupId>
+ <artifactId>sonar-maven-plugin</artifactId>
+ <version>3.6.0.1398</version>
+ </plugin>
  </plugins>
+ </pluginManagement>
  </build>
   
 </project>
